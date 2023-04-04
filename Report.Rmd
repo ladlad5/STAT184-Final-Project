@@ -1,0 +1,5 @@
+---
+title: "The 2022 Formula 1 Regulations. Clean Racing for Teams or a Red Flag for the FIA?"
+output: html_notebook
+---
+
