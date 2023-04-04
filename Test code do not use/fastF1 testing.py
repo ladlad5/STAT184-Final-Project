@@ -20,10 +20,10 @@ print(len(test))
 print(len(testTime))
 
 # The rest is just plotting
-'''fig, ax = plt.subplots()
+fig, ax = plt.subplots()
 ax.plot(t, vCar, label='Fast')
 ax.set_xlabel('Time')
 ax.set_ylabel('Speed [Km/h]')
 ax.set_title('Leclerc is')
 ax.legend()
-plt.show()'''
+plt.show()
