@@ -40,5 +40,8 @@ ggplot(lapData, aes(x = timeData, y = speedData)) +
   theme_minimal()
 
 ```
-+    What are some of the variables that you plan to use? Some variables I plan to use are the lap times and car speeds as quantitative variables, with the cars being separated into teams and engine manufacturers as categorical variables.
++    What are some of the variables that you plan to use? Some variables I plan to use are the lap times and car speeds as quantitative variables, with the cars being separated into teams and engine manufacturers as categorical variables. The graph above was an example of what a graph of car speed over time looks like. Attached below is the data table used for this graph. Margins in Formula 1 are so small that time is measured in milliseconds as anything more broad will not be accurate enough, so to keep integrity of data I will not round times beyond the nearest millisecond.
+```{r, echo=FALSE}
+lapData
+```
 +    The R Notebook should include R code chunks & output as well as narrative (bullet list is fine at this stage) as you answer these questions
