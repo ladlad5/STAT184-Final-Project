@@ -12,3 +12,20 @@ open('Data/lec_time_data.txt', 'w').write(str(t.to_numpy().astype('timedelta64[m
 open('Data/lec_car_data.txt', 'w').write(str(vCar.to_numpy()))
 speedData = vCar.to_numpy()
 timeData = t.to_numpy().astype('timedelta64[ms]')
+# Open the input and output files
+with open('data/lec_car_data.txt', 'r') as infile, open('data/lec_car_data_clean.txt', 'w') as outfile:
+    # Iterate over each line in the input file
+    for line in infile:
+        # Remove square brackets from the line using the replace() method
+        cleaned_line = line.replace('[', '').replace(']', '')
+        # Write the modified line to the output file
+        outfile.write(cleaned_line)
+
+# Open the input and output files
+with open('data/lec_time_data.txt', 'r') as infile, open('data/lec_time_data_clean.txt', 'w') as outfile:
+    # Iterate over each line in the input file
+    for line in infile:
+        # Remove square brackets from the line using the replace() method
+        cleaned_line = line.replace('[', '').replace(']', '')
+        # Write the modified line to the output file
+        outfile.write(cleaned_line)
