@@ -51,5 +51,12 @@ For my second source I am choosing to look at how fans see the change in regulat
 +   Where did you find them? For a secondary source I have 2 tables of track attendance. One from 2021, the last year of the old regulations, and 2022, the first year of the new regulations. Both data tables were obtained from the Statista website as part of some of the data freely provided to education accounts. 2022: https://www.statista.com/statistics/271306/formula-1-revenue-in-2009-by-sector/ and 2021: https://www.statista.com/statistics/1295848/formula-1-attendance/ 
 +   Who collected/maintains them? Statista collects and maintains the data
 +   When & Why were they originally collected? The 2021 and 2022 tables were collected at the end of 2021 and 2022 respectively and released in Feb 2022 and March 2023 respectively.
-+   What does a case represent in each data source, and how many total cases are available? In both tables, a case represents an event and the weekend attendance for said event.
++   What does a case represent in each data source, and how many total cases are available? In both tables, a case represents an event and the weekend attendance for said event. For example, here is a bar chart of race attendance in 2022.
+```{r}
+raceData2022 <- read.csv("Data/2022 Track Attendance.csv")
+raceData2022 %>%
+  ggplot(aes(x = event, y = attendance)) +
+  geom_bar(stat = "identity", fill = "steelblue") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
 +   What are some of the variables that you plan to use? I am planning on using the difference in attendance in events between the 2 years to measure the change in interest from fans between the 2 years.
