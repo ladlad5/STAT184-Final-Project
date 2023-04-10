@@ -1,0 +1,26 @@
+library(data.table)
+library(tidyverse)
+HAM2021SpeedData <- scan("Data/ham_car_data_2021_clean.txt", character(), quote = "")
+HAM2021TimeData <- scan("Data/ham_time_data_2021_clean.txt", character(), quote = "")
+HAM2021LapData <- data.table(HAM2021TimeData, HAM2021SpeedData)
+HAM2021LapData$HAM2021TimeData <- as.numeric(HAM2021LapData$HAM2021TimeData)
+HAM2021LapData$HAM2021TimeData <- HAM2021LapData$HAM2021TimeData / 1000
+HAM2021LapData$HAM2021SpeedData <- as.numeric(HAM2021LapData$HAM2021SpeedData)
+HAM2022SpeedData <- scan("Data/ham_car_data_2022_clean.txt", character(), quote = "")
+HAM2022TimeData <- scan("Data/ham_time_data_2022_clean.txt", character(), quote = "")
+HAM2022LapData <- data.table(HAM2022TimeData, HAM2022SpeedData)
+HAM2022LapData$HAM2022TimeData <- as.numeric(HAM2022LapData$HAM2022TimeData)
+HAM2022LapData$HAM2022TimeData <- HAM2022LapData$HAM2022TimeData / 1000
+HAM2022LapData$HAM2022SpeedData <- as.numeric(HAM2022LapData$HAM2022SpeedData)
+VER2021SpeedData <- scan("Data/ver_car_data_2021_clean.txt", character(), quote = "")
+VER2021TimeData <- scan("Data/ver_time_data_2021_clean.txt", character(), quote = "")
+VER2021LapData <- data.table(VER2021TimeData, VER2021SpeedData)
+VER2021LapData$VER2021TimeData <- as.numeric(VER2021LapData$VER2021TimeData)
+VER2021LapData$VER2021TimeData <- VER2021LapData$VER2021TimeData / 1000
+VER2021LapData$VER2021SpeedData <- as.numeric(VER2021LapData$VER2021SpeedData)
+VER2022SpeedData <- scan("Data/ver_car_data_2022_clean.txt", character(), quote = "")
+VER2022TimeData <- scan("Data/ver_time_data_2022_clean.txt", character(), quote = "")
+VER2022LapData <- data.table(VER2022TimeData, VER2022SpeedData)
+VER2022LapData$VER2022TimeData <- as.numeric(VER2022LapData$VER2022TimeData)
+VER2022LapData$VER2022TimeData <- VER2022LapData$VER2022TimeData / 1000
+VER2022LapData$VER2022SpeedData <- as.numeric(VER2022LapData$VER2022SpeedData)
