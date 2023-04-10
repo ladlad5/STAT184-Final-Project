@@ -17,7 +17,7 @@ To answer this question, I want to approach the answer from 2 different points o
 This leads us to the first source which is the telemetry records shown to fans on the F1 website and app:
 
 
-+    Where did you find them? This telemetry information was provided officially by Formula 1 to the fans.
++    Where did you find them? This telemetry information was provided officially by Formula 1 to the fans. While there is no link to directly access the data. It is available to members of F1TV (F1's streaming service) as part of the race broadcast.
 +    Who collected/maintains them? The data is collected and maintained by Formula 1. Unfortunately there is no public API to easily access these records for personal use, so members in the community have created a third party python library that parses the information for you called FastF1. Their documentation site, which includes a link to their source code can be found here: https://theoehrly.github.io/Fast-F1/ 
 +    When & Why were they originally collected? The data is recorded live at each event as it happens, with records tracing back to 2018. The purpose of collecting this telemtry is for viewers to be able to "supplement" their viewing experience of the TV broadcast with live car data if they so wish.
 +    What does a case represent in each data source, and how many total cases are available? That depends on the Data you are collecting, it can vary from each case representing a car's laptime, to a case representing a single car's speed/coordinates at a certain point of time on track. There is a lot of data so working through it without getting a subset of relevant information is all but impossible. Since a single lap can have hundreds of data points, for a single car out of 20, where each does up to 80 laps in a race, with 20 races a year and 5 years of data. We have hundreds of thousands if not millions of pieces of data. In my case, I will be mostly looking at lap times and speed statistics. For example below is a graph of the driver Charles Leclerc in his fastest qualifying lap of the 2019 Italian grand prix. Shown is his cars speed over the course of the lap.
@@ -45,3 +45,11 @@ ggplot(lapData, aes(x = timeData, y = speedData)) +
 lapData
 ```
 +    The R Notebook should include R code chunks & output as well as narrative (bullet list is fine at this stage) as you answer these questions
+
+For my second source I am choosing to look at how fans see the change in regulations, in this case I have chosen to look at track attendance data as my secondary source.
+
++   Where did you find them? For a secondary source I have 2 tables of track attendance. One from 2021, the last year of the old regulations, and 2022, the first year of the new regulations. Both data tables were obtained from the Statista website as part of some of the data freely provided to education accounts. 2022: https://www.statista.com/statistics/271306/formula-1-revenue-in-2009-by-sector/ and 2021: https://www.statista.com/statistics/1295848/formula-1-attendance/ 
++   Who collected/maintains them? Statista collects and maintains the data
++   When & Why were they originally collected? The 2021 and 2022 tables were collected at the end of 2021 and 2022 respectively and released in Feb 2022 and March 2023 respectively.
++   What does a case represent in each data source, and how many total cases are available? In both tables, a case represents an event and the weekend attendance for said event.
++   What are some of the variables that you plan to use? I am planning on using the difference in attendance in events between the 2 years to measure the change in interest from fans between the 2 years.
