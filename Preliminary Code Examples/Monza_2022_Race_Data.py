@@ -20,3 +20,13 @@ for x in range(len(VERLapTimes)):
     VERLapTimes[x] = VERLapTimes[x].replace(' milliseconds', '')
 HAMCompound = lapDataHAM['Compound'].tolist()
 VERCompound = lapDataVER['Compound'].tolist()
+
+with open('Data/2022/ham_monza.csv', 'w', newline='') as file:
+    writer = csv.writer(file)
+    writer.writerow(['lapTime', 'compound'])  
+    writer.writerows(zip(HAMLapTimes, HAMCompound))
+
+with open('Data/2022/ver_monza.csv', 'w', newline='') as file:
+    writer = csv.writer(file)
+    writer.writerow(['lapTime', 'compound'])  
+    writer.writerows(zip(VERLapTimes, VERCompound))
