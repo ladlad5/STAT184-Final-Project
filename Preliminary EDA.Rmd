@@ -3,7 +3,7 @@ title: "The Formula 1 2022 Regulations Preliminary Report"
 output: html_notebook
 ---
 
-```{r, echo=FALSE}
+```{r, echo=FALSE, results='hide'}
 library(data.table)
 library(tidyverse)
 ```
@@ -22,8 +22,6 @@ This leads us to the first source which is the telemetry records shown to fans o
 +    When & Why were they originally collected? The data is recorded live at each event as it happens, with records tracing back to 2018. The purpose of collecting this telemtry is for viewers to be able to "supplement" their viewing experience of the TV broadcast with live car data if they so wish.
 +    What does a case represent in each data source, and how many total cases are available? That depends on the Data you are collecting, it can vary from each case representing a car's laptime, to a case representing a single car's speed/coordinates at a certain point of time on track. There is a lot of data so working through it without getting a subset of relevant information is all but impossible. Since a single lap can have hundreds of data points, for a single car out of 20, where each does up to 80 laps in a race, with 20 races a year and 5 years of data. We have hundreds of thousands if not millions of pieces of data. In my case, I will be mostly looking at lap times and speed statistics. For example below is a graph of the driver Charles Leclerc in his fastest qualifying lap of the 2019 Italian grand prix. Shown is his cars speed over the course of the lap.
 ```{r, results='hide', echo=FALSE}
-library(data.table)
-library(tidyverse)
 speedData <- scan("Data/lec_car_data_clean.txt", character(), quote = "")
 timeData <- scan("Data/lec_time_data_clean.txt", character(), quote = "")
 
@@ -60,3 +58,57 @@ raceData2022 %>%
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
 +   What are some of the variables that you plan to use? I am planning on using the difference in attendance in events between the 2 years to measure the change in interest from fans between the 2 years.
+
+
+As some informative plots I decided to start simple and compare the speeds of the 2 top drivers in 2021. Max Verstappen and Lewis Hamilton fought for the championship throughout the entire season and are very comparable in terms of skill levels. I created 2 plots, comparing their speeds throughout a lap around the Monza track in 2021 and 2022.
+
+```{r, results='hide', echo=FALSE}
+HAM2021SpeedData <- scan("Data/ham_car_data_2021_clean.txt", character(), quote = "")
+HAM2021TimeData <- scan("Data/ham_time_data_2021_clean.txt", character(), quote = "")
+HAM2021LapData <- data.table(HAM2021TimeData, HAM2021SpeedData)
+HAM2021LapData$HAM2021TimeData <- as.numeric(HAM2021LapData$HAM2021TimeData)
+HAM2021LapData$HAM2021TimeData <- HAM2021LapData$HAM2021TimeData / 1000
+HAM2021LapData$HAM2021SpeedData <- as.numeric(HAM2021LapData$HAM2021SpeedData)
+HAM2022SpeedData <- scan("Data/ham_car_data_2022_clean.txt", character(), quote = "")
+HAM2022TimeData <- scan("Data/ham_time_data_2022_clean.txt", character(), quote = "")
+HAM2022LapData <- data.table(HAM2022TimeData, HAM2022SpeedData)
+HAM2022LapData$HAM2022TimeData <- as.numeric(HAM2022LapData$HAM2022TimeData)
+HAM2022LapData$HAM2022TimeData <- HAM2022LapData$HAM2022TimeData / 1000
+HAM2022LapData$HAM2022SpeedData <- as.numeric(HAM2022LapData$HAM2022SpeedData)
+VER2021SpeedData <- scan("Data/ver_car_data_2021_clean.txt", character(), quote = "")
+VER2021TimeData <- scan("Data/ver_time_data_2021_clean.txt", character(), quote = "")
+VER2021LapData <- data.table(VER2021TimeData, VER2021SpeedData)
+VER2021LapData$VER2021TimeData <- as.numeric(VER2021LapData$VER2021TimeData)
+VER2021LapData$VER2021TimeData <- VER2021LapData$VER2021TimeData / 1000
+VER2021LapData$VER2021SpeedData <- as.numeric(VER2021LapData$VER2021SpeedData)
+VER2022SpeedData <- scan("Data/ver_car_data_2022_clean.txt", character(), quote = "")
+VER2022TimeData <- scan("Data/ver_time_data_2022_clean.txt", character(), quote = "")
+VER2022LapData <- data.table(VER2022TimeData, VER2022SpeedData)
+VER2022LapData$VER2022TimeData <- as.numeric(VER2022LapData$VER2022TimeData)
+VER2022LapData$VER2022TimeData <- VER2022LapData$VER2022TimeData / 1000
+VER2022LapData$VER2022SpeedData <- as.numeric(VER2022LapData$VER2022SpeedData)
+
+ggplot() +
+  geom_line(data = HAM2021LapData, aes(x = HAM2021TimeData, y = HAM2021SpeedData, color = "Hamilton"), size = 1) +
+  geom_line(data = VER2021LapData, aes(x = VER2021TimeData, y = VER2021SpeedData, color = "Verstappen"), size = 1) +
+  labs(title = "2021 Lap Time and Speed Comparison",
+       x = "Lap Time (s)", y = "Speed (km/h)",
+       color = "Driver") +
+  scale_color_manual(values = c("red", "blue"),
+                     labels = c("Hamilton", "Verstappen"),
+                     name = "Driver") +
+  theme_classic()
+
+ggplot() +
+  geom_line(data = HAM2022LapData, aes(x = HAM2022TimeData, y = HAM2022SpeedData, color = "Hamilton"), size = 1) +
+  geom_line(data = VER2022LapData, aes(x = VER2022TimeData, y = VER2022SpeedData, color = "Verstappen"), size = 1) +
+  labs(title = "2022 Lap Time and Speed Comparison",
+       x = "Lap Time (s)", y = "Speed (km/h)",
+       color = "Driver") +
+  scale_color_manual(values = c("red", "blue"),
+                     labels = c("Hamilton", "Verstappen"),
+                     name = "Driver") +
+  theme_classic()
+```
+
+Just from these 2 graphs we can see that there might be some merit to people's claims that the 2022 regulations have not helped reduce competition but actually created a gap that was not there before. In the 2021 graph you can see that Hamilton and Verstappen are almost identical in terms of pace. In a sport where margins are measured in milliseconds this is an incredible achievement from both drivers and teams. However in 2022, you can see a much bigger difference between the drivers. Max Verstappen's Red Bull has much higher "low points" (which indicate a corner) showing that the new regulations helped red bull find a car with much better cornering speeds than Lewis Hamilton's Mercedes. Verstappen's lap domain is also smaller, meaning he finished his lap with a faster time than Hamilton. If we were to compare Verstappen's and Hamilton's average speeds in 2021 of `r mean(VER2021LapData$VER2021SpeedData)` and `r mean(HAM2021LapData$HAM2021SpeedData)` respectively we can see they were almost identical and a difference this small could be attributed to track conditions not being identical in each driver's runs. Now if we compare the 2022 average speeds of `r mean(VER2022LapData$VER2022SpeedData)` and `r mean(HAM2022LapData$HAM2022SpeedData)` respectively, we can see Max Verstappen had an almost 5 KMH speed advantage compared to hamilton over a lap. This is a very significant difference in speeds between the two cars that cannot be explained with just differing track conditions.
