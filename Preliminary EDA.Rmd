@@ -50,7 +50,7 @@ For my second source I am choosing to look at how fans see the change in regulat
 +   Who collected/maintains them? Statista collects and maintains the data
 +   When & Why were they originally collected? The 2021 and 2022 tables were collected at the end of 2021 and 2022 respectively and released in Feb 2022 and March 2023 respectively.
 +   What does a case represent in each data source, and how many total cases are available? In both tables, a case represents an event and the weekend attendance for said event. For example, here is a bar chart of race attendance in 2022.
-```{r}
+```{r, echo=FALSE, results='hide'}
 raceData2022 <- read.csv("Data/2022 Track Attendance.csv")
 raceData2022 %>%
   ggplot(aes(x = event, y = attendance)) +
@@ -112,3 +112,53 @@ ggplot() +
 ```
 
 Just from these 2 graphs we can see that there might be some merit to people's claims that the 2022 regulations have not helped reduce competition but actually created a gap that was not there before. In the 2021 graph you can see that Hamilton and Verstappen are almost identical in terms of pace. In a sport where margins are measured in milliseconds this is an incredible achievement from both drivers and teams. However in 2022, you can see a much bigger difference between the drivers. Max Verstappen's Red Bull has much higher "low points" (which indicate a corner) showing that the new regulations helped red bull find a car with much better cornering speeds than Lewis Hamilton's Mercedes. Verstappen's lap domain is also smaller, meaning he finished his lap with a faster time than Hamilton. If we were to compare Verstappen's and Hamilton's average speeds in 2021 of `r mean(VER2021LapData$VER2021SpeedData)` and `r mean(HAM2021LapData$HAM2021SpeedData)` respectively we can see they were almost identical and a difference this small could be attributed to track conditions not being identical in each driver's runs. Now if we compare the 2022 average speeds of `r mean(VER2022LapData$VER2022SpeedData)` and `r mean(HAM2022LapData$HAM2022SpeedData)` respectively, we can see Max Verstappen had an almost 5 KMH speed advantage compared to hamilton over a lap. This is a very significant difference in speeds between the two cars that cannot be explained with just differing track conditions.
+
+Some may argue that qualification doesn't show much, and in reality there is some truth to that, as point are earned during the race itself. To further analyze the claim to see if there is any merit I have looked at that same race of the 2022 Italian grand prix. Below are the average lap times in seconds of Verstappen and Hamilton with the different tyre compounds. During the race, drivers use different compounds of tires which let them choose a balance between tire "lifespan" and grip level. Harder compound tires result in slower lap times, which is why it is important to make the distinction when calculating pace (in qualification, all drivers use soft compound tires so the type is not a factor). Luckily F1 provides the type of tire a driver used in a lap as a variable.
+
+```{r, results='hide', echo=FALSE}
+HAMRacePace <- read.csv("Data/2022/ham_monza.csv")
+VERRacePace <- read.csv("Data/2022/ver_monza.csv")
+HAMRacePace <-
+    HAMRacePace %>%
+    mutate(driver = "Hamilton")
+VERRacePace <-
+    VERRacePace %>%
+    mutate(driver = "Verstappen")
+
+racePace <- rbind(HAMRacePace, VERRacePace)
+avgLapTime <- racePace %>%
+  group_by(driver, compound) %>%
+  summarize(avgTimeSeconds = mean(lapTime)/1000)
+
+ggplot(avgLapTime, aes(x = compound, y = avgTimeSeconds, fill = driver)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  labs(x = "Tire Compound", y = "Average Lap Time (Seconds)", fill = "Driver") +
+  ggtitle("Average Lap Time by Tire Compound and Driver") +
+  coord_cartesian(ylim=c(80,100))
+```
+
+Here we can see that in the medium compound, and especially in the soft compound tires. Verstappen has a pretty significant advantage of over a second per lap in pace. This may not seem very big, but in the scale of the margins of Formula 1, being a second slower is such a big loss and is considered an "embarassing" lack of pace by a top team, that Hamilton's team Mercedes issued an apology to fans and sponsors due to their "slow" car.
+
+In terms of fan support. The plot below shows the net change in attendance in races that were held both in 2021 and 2022.
+```{r, results='hide', echo=FALSE}
+raceData2021 <- read.csv("Data/2021 Track Attendance.csv")
+raceData2021 <-
+  raceData2021 %>%
+  rename(attendance2021 = attendance)
+raceData2022 <-
+  raceData2022 %>%
+  rename(attendance2022 = attendance)
+combinedRaceTable <- merge(raceData2021, raceData2022, by = "event")
+combinedRaceTable$attendance2021 <- as.numeric(gsub(",", "", combinedRaceTable$attendance2021))
+combinedRaceTable$attendance2022 <- as.numeric(gsub(",", "", combinedRaceTable$attendance2022))
+combinedRaceTable <-
+  combinedRaceTable %>%
+  mutate(net_change = attendance2022 - attendance2021)
+ggplot(combinedRaceTable, aes(x = event, y = net_change)) +
+  geom_bar(stat = "identity", fill = "steelblue") +
+  xlab("Event") +
+  ylab("Net Change") +
+  ggtitle("Net Change in Event Attendance from 2021 to 2022")
+```
+
+Looking at this graph alone, Something certainly can be said as to the increase in popularity of races from 2021 to 2022. In all the overlapping races for which data was available, there was a net increase in attendance, with some countries, especially in Europe, seeing massive increase in attendance. All of the events listed occured during lulls in the COVID 19 pandemic when little to no travel restrictions were present so as a preliminary conclusion, we can say that with the effect of COVID 19 on attendance being negligble (countries that did have restrictions in 2021 have had their events cancelled and are not on this list, such as Australia and Japan. Though it should be mentioned that both races occured in 2022. The 2023 Australian grand prix occurred on April 2nd and had the highest attendance of the sport's history in Australia. The 2023 Japanese grand prix has yet to happen and is scheduled for october 2023), the sport's popularity certainly grew even if some people claim that competitiveness has taken a hit with the new regulations.
