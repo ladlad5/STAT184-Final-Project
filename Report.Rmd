@@ -3,3 +3,8 @@ title: "The 2022 Formula 1 Regulations. Clean Racing for Teams or a Red Flag for
 output: html_notebook
 ---
 
+## What is this report about?
+
+Formula 1 has a long, storied history. Considered the Pinnacle of motorsport, there is nothing like it in the world. Single seater, open wheeled cars engineered to perfection, taking corners at impossible speeds, and propelling auto technology to heights never thought possible. Unfortunately, like any other sport, Formula 1 is not perfect, and just like any other sport, it has seen periods of domination where one team would win it all without mercy and not let any other team enjoy a moment in the spotlight. To combat that, the governing body called the FIA changes regulations of Formula 1 cars every few years to shake up the grid and hopefully make competition much closer. Most recently, Mercedes has completely obliterated the competition in the turbo-hybrid era that started in 2014. With the exception of the 2021 season, no team has even come close in performance to Mercedes. The solution was the 2022 regulations, which brought about the biggest change to how the cars are built in the history of the sport. Unfortunately after seeing the 2022 and beginning of the 2023 seasons, some people claim that the new regulations have not improved competition, as the sport has entered an era of domination not by Mercedes, but by Red Bull Racing. This report aims to find the answer to this divide, centered around one question:
+
+## Have the 2022 regulations helped bring competition closer, and do Formula 1 fans enjoy the sport more than in the past?
