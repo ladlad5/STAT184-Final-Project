@@ -18,18 +18,22 @@ It is important to note that periods of one team dominating the rest of the grid
 
 To start, it is important to note just how close in skill Verstappen and Hamilton are. Attached below is a graph showcasing their performance in qualification at the Monza track in 2021. Qualification is a better indicator than race pace for this kind of comparison because there is no strategy involved in qualifying. Both teams run their cars on the fastest compound of tires with the lowest possible amount of fuel, leaving the results up to the car and the drivers.
 ```{r, results='hide'}
+convertTime <- function(timeData){
+  newData <- as.numeric(timeData)
+  newData <- newData / 1000
+  return(newData)
+}
 HAM2021SpeedData <- scan("Data/ham_car_data_2021_clean.txt", character(), quote = "")
 HAM2021TimeData <- scan("Data/ham_time_data_2021_clean.txt", character(), quote = "")
 HAM2021LapData <- data.table(HAM2021TimeData, HAM2021SpeedData)
-HAM2021LapData$HAM2021TimeData <- as.numeric(HAM2021LapData$HAM2021TimeData)
-HAM2021LapData$HAM2021TimeData <- HAM2021LapData$HAM2021TimeData / 1000
+HAM2021LapData$HAM2021TimeData <- convertTime(HAM2021LapData$HAM2021TimeData)
 HAM2021LapData$HAM2021SpeedData <- as.numeric(HAM2021LapData$HAM2021SpeedData)
 VER2021SpeedData <- scan("Data/ver_car_data_2021_clean.txt", character(), quote = "")
 VER2021TimeData <- scan("Data/ver_time_data_2021_clean.txt", character(), quote = "")
 VER2021LapData <- data.table(VER2021TimeData, VER2021SpeedData)
-VER2021LapData$VER2021TimeData <- as.numeric(VER2021LapData$VER2021TimeData)
-VER2021LapData$VER2021TimeData <- VER2021LapData$VER2021TimeData / 1000
+VER2021LapData$VER2021TimeData <- convertTime(VER2021LapData$VER2021TimeData)
 VER2021LapData$VER2021SpeedData <- as.numeric(VER2021LapData$VER2021SpeedData)
+head(HAM2021LapData)
 ggplot() +
   geom_line(data = HAM2021LapData, aes(x = HAM2021TimeData, y = HAM2021SpeedData, color = "Hamilton"), size = 1) +
   geom_line(data = VER2021LapData, aes(x = VER2021TimeData, y = VER2021SpeedData, color = "Verstappen"), size = 1) +
@@ -42,4 +46,29 @@ ggplot() +
   theme_classic()
 ```
 
-With this plot you can see just how equal Hamilton and Verstappen are in terms of skill. For most of the graph, their lines are actually overlapping, and most cases where they don't overlap are in braking zones, which can be attributed to technique (Verstappen preferring to brake earlier than Hamilton). You can also see that the domain for both drivers' graphs is about the same, indicating an almost identical laptime.
+With this plot you can see just how equal Hamilton and Verstappen are in terms of skill. For most of the graph, their lines are actually overlapping, and most cases where they don't overlap are in braking zones, which can be attributed to technique (Verstappen preferring to brake earlier than Hamilton). You can also see that the domain for both drivers' graphs is about the same, indicating an almost identical laptime. For this comparison with the 2022 season, I am choosing to once again compare the two drivers in the Monza track. With the way F1 cars are built, different teams' cars might be more suited to different track, so in order to eliminate as many outside variables as possible, it would be fairest to compare the same drivers in the same teams on the same track. Below is the same graph for the 2022 Grand Prix.
+
+```{r, results='hide'}
+HAM2022SpeedData <- scan("Data/ham_car_data_2022_clean.txt", character(), quote = "")
+HAM2022TimeData <- scan("Data/ham_time_data_2022_clean.txt", character(), quote = "")
+HAM2022LapData <- data.table(HAM2022TimeData, HAM2022SpeedData)
+HAM2022LapData$HAM2022TimeData <- convertTime(HAM2022LapData$HAM2022TimeData)
+HAM2022LapData$HAM2022SpeedData <- as.numeric(HAM2022LapData$HAM2022SpeedData)
+VER2022SpeedData <- scan("Data/ver_car_data_2022_clean.txt", character(), quote = "")
+VER2022TimeData <- scan("Data/ver_time_data_2022_clean.txt", character(), quote = "")
+VER2022LapData <- data.table(VER2022TimeData, VER2022SpeedData)
+VER2022LapData$VER2022TimeData <- convertTime(VER2022LapData$VER2022TimeData)
+VER2022LapData$VER2022SpeedData <- as.numeric(VER2022LapData$VER2022SpeedData)
+ggplot() +
+  geom_line(data = HAM2022LapData, aes(x = HAM2022TimeData, y = HAM2022SpeedData, color = "Hamilton"), size = 1) +
+  geom_line(data = VER2022LapData, aes(x = VER2022TimeData, y = VER2022SpeedData, color = "Verstappen"), size = 1) +
+  labs(title = "2022 Lap Time and Speed Comparison",
+       x = "Lap Time (s)", y = "Speed (km/h)",
+       color = "Driver") +
+  scale_color_manual(values = c("red", "blue"),
+                     labels = c("Hamilton", "Verstappen"),
+                     name = "Driver") +
+  theme_classic()
+```
+
+As you can see in the graph representing each driver's fastest lap in 2022, there is a clear difference in lap performance between Hamilton and Verstappen that was not present in 2021. In the graph you can see that Verstappen's graph domain is smaller, indicating that his lap was noticeably faster than Hamilton's. This is also backed up by the graph's relative "lows" which represent the "peak" of a corner on track, the slowest part of the turn. In the 2021 graph you can see that both cars have an almost identical average low speed. In 2022 it is noticeable that in the "medium speed" corners, Verstappen's Red Bull has a much faster "lowest" speed than Hamilton's Mercedes resulting in Max completing the turn faster. This saved time adds up throughout the corners, eventually resulting in a significantly faster lap time. In both years there have been dry track conditions and the track layout has not been updated between the years either. The only changed variable has been the new generation of cars, so this could hint that the new cars have caused a gap between the 2 top teams that was not present in the previous season.
