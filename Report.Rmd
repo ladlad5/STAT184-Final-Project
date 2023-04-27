@@ -17,7 +17,7 @@ Formula 1 has a long, storied history. Considered the Pinnacle of motorsport, th
 It is important to note that periods of one team dominating the rest of the grid are nothing new to Formula 1. Michael Schumacher, a driver that is considered a hero to many, was at the helm of Ferrari's domination of the grid in the first half of the 2000's. Then after a few years of competition, the sport entered an era of Red Bull domination, which was then taken over by Mercedes at the beginning of the turbo hybrid era of the sport. Mercedes's reign has been one of the most dominant eras in the history of the sport. Since the end of the 2012 season, the only season to be considered "competitive" between two teams has been 2021 when Red Bull managed to match the pace that Mercedes had for so long. 2021 was considered an ideal year for the competitiveness of the sport, and is the year we will use to compare to the recent 2022 season as a sort of "perfect example" of where some consider the sport should be. For the rest of this report, I will be comparing Lewis Hamilton of Mercedes and Max Verstappen of Red Bull specifically. Both are considered generational talent and the only drivers good enough to rival each other. In the 2021 season that lasted 22 races, the championship was so close between the two that the champion was decided by a pass performed by Max on Hamilton on the last lap of the final race of the season. The last time two drivers were this competitive was the 2012 season.
 
 To start, it is important to note just how close in skill Verstappen and Hamilton are. Attached below is a graph showcasing their performance in qualification at the Monza track in 2021. Qualification is a better indicator than race pace for this kind of comparison because there is no strategy involved in qualifying. Both teams run their cars on the fastest compound of tires with the lowest possible amount of fuel, leaving the results up to the car and the drivers.
-```{r, results='hide'}
+```{r}
 convertTime <- function(timeData){
   newData <- as.numeric(timeData)
   newData <- newData / 1000
@@ -48,7 +48,7 @@ ggplot() +
 
 With this plot you can see just how equal Hamilton and Verstappen are in terms of skill. For most of the graph, their lines are actually overlapping, and most cases where they don't overlap are in braking zones, which can be attributed to technique (Verstappen preferring to brake earlier than Hamilton). You can also see that the domain for both drivers' graphs is about the same, indicating an almost identical laptime. For this comparison with the 2022 season, I am choosing to once again compare the two drivers in the Monza track. With the way F1 cars are built, different teams' cars might be more suited to different track, so in order to eliminate as many outside variables as possible, it would be fairest to compare the same drivers in the same teams on the same track. Below is the same graph for the 2022 Grand Prix.
 
-```{r, results='hide'}
+```{r}
 HAM2022SpeedData <- scan("Data/ham_car_data_2022_clean.txt", character(), quote = "")
 HAM2022TimeData <- scan("Data/ham_time_data_2022_clean.txt", character(), quote = "")
 HAM2022LapData <- data.table(HAM2022TimeData, HAM2022SpeedData)
@@ -59,6 +59,7 @@ VER2022TimeData <- scan("Data/ver_time_data_2022_clean.txt", character(), quote 
 VER2022LapData <- data.table(VER2022TimeData, VER2022SpeedData)
 VER2022LapData$VER2022TimeData <- convertTime(VER2022LapData$VER2022TimeData)
 VER2022LapData$VER2022SpeedData <- as.numeric(VER2022LapData$VER2022SpeedData)
+head(VER2022LapData)
 ggplot() +
   geom_line(data = HAM2022LapData, aes(x = HAM2022TimeData, y = HAM2022SpeedData, color = "Hamilton"), size = 1) +
   geom_line(data = VER2022LapData, aes(x = VER2022TimeData, y = VER2022SpeedData, color = "Verstappen"), size = 1) +
