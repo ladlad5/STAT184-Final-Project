@@ -73,3 +73,67 @@ ggplot() +
 ```
 
 As you can see in the graph representing each driver's fastest lap in 2022, there is a clear difference in lap performance between Hamilton and Verstappen that was not present in 2021. In the graph you can see that Verstappen's graph domain is smaller, indicating that his lap was noticeably faster than Hamilton's. This is also backed up by the graph's relative "lows" which represent the "peak" of a corner on track, the slowest part of the turn. In the 2021 graph you can see that both cars have an almost identical average low speed. In 2022 it is noticeable that in the "medium speed" corners, Verstappen's Red Bull has a much faster "lowest" speed than Hamilton's Mercedes resulting in Max completing the turn faster. This saved time adds up throughout the corners, eventually resulting in a significantly faster lap time. In both years there have been dry track conditions and the track layout has not been updated between the years either. The only changed variable has been the new generation of cars, so this could hint that the new cars have caused a gap between the 2 top teams that was not present in the previous season.
+
+
+Now in this example, we have only looked at the fastest lap of qualifying, but a favorite saying in Formula 1 is "points are earned on Sunday" meaning while qualifying is extremely important and can determine where you will finish the race on Sunday, a good performance can outweight bad qualifying. So lets look at the race pace to see if we can find something there too.
+
+```{r}
+HAMRacePace2021 <- read.csv("Data/2021/ham_monza.csv")
+VERRacePace2021 <- read.csv("Data/2021/ver_monza.csv")
+HAMRacePace2021 <-
+    HAMRacePace2021 %>%
+    mutate(driver = "Hamilton")
+VERRacePace2021 <-
+    VERRacePace2021 %>%
+    mutate(driver = "Verstappen")
+
+racePace2021 <- rbind(HAMRacePace2021, VERRacePace2021)
+avgLapTime2021 <- racePace2021 %>%
+  group_by(driver, compound) %>%
+  summarize(avgTimeSeconds = mean(lapTime)/1000)
+
+ggplot(avgLapTime2021, aes(x = compound, y = avgTimeSeconds, fill = driver)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  labs(x = "Tire Compound", y = "Average Lap Time (Seconds)", fill = "Driver") +
+  ggtitle("2021 Average Lap Time by Tire Compound and Driver") +
+  coord_cartesian(ylim=c(80,100))
+```
+Here we can see that Hamilton had a much better pace on the hard compound tires while Verstappen was the only one to use the medium compound tires. Unfortunately this graph is a little misleading, as halfway into the race Hamilton and Verstappen crashed into each other before finishing the race. Verstappen had only gotten one lap on the hard compound in which he did not heat his tires up to their full potential. Therefore our next best indication would be the difference between Hamilton's hard compound and Verstappen's medium compound. Usually drivers gain about 1-2 seconds per lap in pace when switching to a softer compound tires so let us check the difference in average laps of the two.
+```{r}
+avgLapTime2021$avgTimeSeconds[3]-avgLapTime2021$avgTimeSeconds[1]
+```
+From this calculation we can see Max was 1.2 seconds faster per lap on one level softer compound of tires, this is a completely normal performance gain from the tires and can indicate the cars being on equal footing. Now let us compare the same graph for the 2022 race. Thankfully both drivers finished the race with no incident so the data is not misleading.
+```{r}
+HAMRacePace <- read.csv("Data/2022/ham_monza.csv")
+VERRacePace <- read.csv("Data/2022/ver_monza.csv")
+HAMRacePace <-
+    HAMRacePace %>%
+    mutate(driver = "Hamilton")
+VERRacePace <-
+    VERRacePace %>%
+    mutate(driver = "Verstappen")
+
+racePace <- rbind(HAMRacePace, VERRacePace)
+avgLapTime <- racePace %>%
+  group_by(driver, compound) %>%
+  summarize(avgTimeSeconds = mean(lapTime)/1000)
+
+ggplot(avgLapTime, aes(x = compound, y = avgTimeSeconds, fill = driver)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  labs(x = "Tire Compound", y = "Average Lap Time (Seconds)", fill = "Driver") +
+  ggtitle("2022 Average Lap Time by Tire Compound and Driver") +
+  coord_cartesian(ylim=c(80,100))
+```
+
+In the 2022 graph, we can see that Verstappen is noticeably faster than Hamilton on the same compound of tires. The difference in lap time for medium and soft compounds are:
+```{r}
+avgLapTime$avgTimeSeconds[1]-avgLapTime$avgTimeSeconds[3]
+avgLapTime$avgTimeSeconds[2]-avgLapTime$avgTimeSeconds[4]
+```
+respectively. Max has gained almost half a second on the medium compound tires and over 1.5 seconds on the soft compound. If the cars truly were on equal footing such a situation would be completely impossible. Showing **The 2022 regulation have clearly created an era of dominance by Red Bull** but is that a bad thing? From a completely objective point of view, yes, one team dominating the rest of the grid isn't ideal, but F1 has seen those before, and with new regulations coming in the 2026 season, the FIA can change the rules to ensure a more even grid once again.
+
+Now it's time to approach this dillema from a different perspective.  
+
+## Do fans care that the grid is less equal than before?
+
+
