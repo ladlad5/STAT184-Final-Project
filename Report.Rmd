@@ -8,6 +8,8 @@ library(tidyverse)
 library(data.table)
 ```
 
+Full repo available at: https://github.com/ladlad5/STAT184-Final-Project
+
 ## What is this report about?
 
 Formula 1 has a long, storied history. Considered the Pinnacle of motorsport, there is nothing like it in the world. Single seater, open wheeled cars engineered to perfection, taking corners at impossible speeds, and propelling auto technology to heights never thought possible. Unfortunately, like any other sport, Formula 1 is not perfect, and just like any other sport, it has seen periods of domination where one team would win it all without mercy and not let any other team enjoy a moment in the spotlight. To combat that, the governing body called the FIA changes regulations of Formula 1 cars every few years to shake up the grid and hopefully make competition much closer. Most recently, Mercedes has completely obliterated the competition in the turbo-hybrid era that started in 2014. With the exception of the 2021 season, no team has even come close in performance to Mercedes. The solution was the 2022 regulations, which brought about the biggest change to how the cars are built in the history of the sport. Unfortunately after seeing the 2022 and beginning of the 2023 seasons, some people claim that the new regulations have not improved competition, as the sport has entered an era of domination not by Mercedes, but by Red Bull Racing. This report aims to find the answer to this divide, centered around one question:
@@ -169,3 +171,9 @@ ggplot(combinedRaceTable, aes(x = event, y = net_change)) +
 
 
 For the events held in both 2021 and 2022, we can see that every single one has had an increase in attendance from 2021 to 2022. Some small and some huge. Another big point of data that is not reflected by the graphs, is that many events held in 2022 (even if not held in 2021) have broken their all time attendance records, indicating that even with Red Bull's new era of domination **Formula 1 is more popular than it has ever been among fans.**
+
+## Biggest Technical Challenge
+If I had to choose the biggest technical challenge I had throughout the whole project it would be parsing the data. Since F1 doesn't provide ways to download the raw telemetry data, they have to be parsed using a special parser. Thankfully someone in the community created the FastF1 library that solved most of the hassle for me, so it was only a matter of learning the documentation. Specifically with R my biggest challenge was getting the plots to show exactly what I wanted them to show. Since even one mistake when creating the ggplot can lead to undesired results, I had to rely a lot on tutorials and online documentations to troubleshoot.
+
+## Final Conclusion
+With all the analysis I have done, I believe it is safe to conclude that yes, the new Formula 1 regulations have created a new era of dominance. I think the FIA needs to look into this, learn from their mistakes, and change their technical regulations in preparation for the 2026 regulation change. However, I do not think this dominance is a danger to the sport. This is nothing new to Formula 1 and has occured many times before. If the FIA can adapt with the new regulations like they have in the past, we can reach a competitive grid like we had in 2021 again. It is also important to note that while some fans are disappointed in the new era of dominance, the general public still loves Formula 1, and the sport has been more populat than it has ever been in its 73 year history.
