@@ -136,4 +136,36 @@ Now it's time to approach this dillema from a different perspective.
 
 ## Do fans care that the grid is less equal than before?
 
+A good way to measure fan interest is to check attendance records. With Formula 1 being an everchanging sport, the race schedule always changes, so while we cannot compare year over year change for every single track, we have enough events to draw some conclusions. Attached below are the attendance records for 2022
+```{r}
+raceData2022 <- read.csv("Data/2022 Track Attendance.csv")
+raceData2022 %>%
+  ggplot(aes(x = event, y = attendance)) +
+  geom_bar(stat = "identity", fill = "steelblue") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
 
+It is noticeable that some tracks have much higher attendance records than others, but that can be due to many factors, including physical size of the track, amount of seating, and even the price of tickets and the economic situation in the host country. A good way to compare popularity would be to compare year over year change. To do so, we collect attendance information for 2021 when F1 competed in countries that did not have any COVID-19 restrictions, so we can safely use the data without the risk of it being skewed due to the pandemic.
+```{r}
+raceData2021 <- read.csv("Data/2021 Track Attendance.csv")
+raceData2021 <-
+  raceData2021 %>%
+  rename(attendance2021 = attendance)
+raceData2022 <-
+  raceData2022 %>%
+  rename(attendance2022 = attendance)
+combinedRaceTable <- merge(raceData2021, raceData2022, by = "event")
+combinedRaceTable$attendance2021 <- as.numeric(gsub(",", "", combinedRaceTable$attendance2021))
+combinedRaceTable$attendance2022 <- as.numeric(gsub(",", "", combinedRaceTable$attendance2022))
+combinedRaceTable <-
+  combinedRaceTable %>%
+  mutate(net_change = attendance2022 - attendance2021)
+ggplot(combinedRaceTable, aes(x = event, y = net_change)) +
+  geom_bar(stat = "identity", fill = "steelblue") +
+  xlab("Event") +
+  ylab("Net Change") +
+  ggtitle("Net Change in Event Attendance from 2021 to 2022")
+```
+
+
+For the events held in both 2021 and 2022, we can see that every single one has had an increase in attendance from 2021 to 2022. Some small and some huge. Another big point of data that is not reflected by the graphs, is that many events held in 2022 (even if not held in 2021) have broken their all time attendance records, indicating that even with Red Bull's new era of domination **Formula 1 is more popular than it has ever been among fans.**
